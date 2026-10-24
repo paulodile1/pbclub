@@ -45,6 +45,17 @@
       transition: opacity 1.4s ease;
     }
     .hero-video.loaded { opacity: 1; }
+    /* esconde o botão de play/pause que o iPhone mostra no vídeo */
+    .hero-video { pointer-events: none; }
+    .hero-video::-webkit-media-controls,
+    .hero-video::-webkit-media-controls-panel,
+    .hero-video::-webkit-media-controls-play-button,
+    .hero-video::-webkit-media-controls-start-playback-button,
+    .hero-video::-webkit-media-controls-overlay-play-button {
+      display: none !important;
+      -webkit-appearance: none;
+      opacity: 0 !important;
+    }
 
     .hero-overlay {
       position: absolute;
@@ -837,9 +848,28 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" onloadeddata="this.classList.add('loaded')">
+    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback preload="auto" onplaying="this.classList.add('loaded')">
       <source src="intro.mp4" type="video/mp4" />
     </video>
+    <script>
+      /* Só mostra o vídeo quando ele estiver tocando de verdade.
+         Se o celular bloquear (ex.: modo de pouca energia do iPhone),
+         fica o fundo da lua no lugar, sem símbolo de play/pause,
+         e o vídeo tenta tocar de novo no primeiro toque na tela. */
+      (function () {
+        var v = document.querySelector('.hero-video');
+        if (!v) return;
+        v.muted = true;
+        function tryPlay() { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        tryPlay();
+        ['touchstart', 'click', 'scroll'].forEach(function (ev) {
+          window.addEventListener(ev, function once() {
+            if (v.paused) tryPlay();
+            window.removeEventListener(ev, once);
+          }, { passive: true });
+        });
+      })();
+    </script>
     <div class="hero-overlay"></div>
 
     <div class="moon"></div>
