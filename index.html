@@ -798,6 +798,16 @@
       .detail-name { font-size: 28px; }
     }
 
+    /* No celular a largura minima de 210px nao cabe duas vezes, e a grade cai
+       para uma coluna so. Abaixo de 520px forcamos duas: num aparelho comum o
+       card fica com 155 a 190px. Tres colunas deixariam o card com 103 a 126px,
+       pequeno demais para ver a peca. Acima de 520px o proprio auto-fill ja
+       resolve (duas colunas ate 760px, tres acima disso). */
+    @media (max-width: 520px) {
+      .products-grid,
+      .enc-grid.enc-grid-pecas { grid-template-columns: repeat(2, 1fr); }
+    }
+
 
     /* ===== ENCOMENDAS ===== */
     #encomendas { scroll-margin-top: 72px; }
@@ -2299,6 +2309,23 @@
       var marcaAtual = null;
       var tipoAtual = null;
       var relogios = [];
+      var posicaoAntes = 0;   /* onde a pessoa estava quando entrou na marca */
+
+      /* pula direto para a posicao, sem a rolagem animada da pagina */
+      function irPara(y) {
+        var raiz = document.documentElement;
+        var antes = raiz.style.scrollBehavior;
+        raiz.style.scrollBehavior = "auto";
+        window.scrollTo(0, y);
+        raiz.style.scrollBehavior = antes;
+      }
+
+      /* so guarda na primeira entrada; voltar de peca para tipo nao mexe */
+      function guardarPosicao() {
+        if (!document.body.classList.contains("so-encomenda")) {
+          posicaoAntes = window.scrollY;
+        }
+      }
 
       function monograma(nome) {
         var partes = nome.split(/[\s-]+/);
@@ -2314,7 +2341,7 @@
       /* leva a pagina para o topo da encomenda */
       function subirAteSecao() {
         if (document.body.classList.contains("so-encomenda")) {
-          window.scrollTo(0, 0);
+          irPara(0);
           return;
         }
         if (secao.getBoundingClientRect().top >= 0) return;
@@ -2338,11 +2365,20 @@
         voltar.hidden = true;
         crumb.textContent = "Escolha uma marca";
         grid.classList.add("enc-grid-marcas");
-        if (document.body.classList.contains("so-encomenda")) {
+        grid.classList.remove("enc-grid-pecas");
+        var voltando = document.body.classList.contains("so-encomenda");
+        if (voltando) {
           soEncomenda(false);
-          window.scrollTo(0, Math.max(0, secao.getBoundingClientRect().top + window.scrollY - 72));
+          irPara(posicaoAntes);
         }
         trocar(function() {
+          if (voltando) {
+            /* de novo com a grade redesenhada, e mais uma vez depois que o
+               navegador terminou o calculo do layout — senao a pagina ainda
+               esta curta e a posicao fica uns 20px acima do lugar */
+            irPara(posicaoAntes);
+            requestAnimationFrame(function() { irPara(posicaoAntes); });
+          }
           encomendas.forEach(function(marca) {
             var pecas = marca.tipos.reduce(function(t, g) { return t + g.pecas.length; }, 0);
             var tile = document.createElement("div");
@@ -2363,6 +2399,8 @@
         voltar.hidden = false;
         crumb.innerHTML = '<b>' + marca.marca + '</b> — escolha o tipo de peça';
         grid.classList.remove("enc-grid-marcas");
+        grid.classList.remove("enc-grid-pecas");
+        guardarPosicao();
         soEncomenda(true);
         subirAteSecao();
         trocar(function() {
@@ -2383,6 +2421,8 @@
         voltar.hidden = false;
         crumb.innerHTML = '<b>' + marca.marca + '</b> — ' + grupo.tipo;
         grid.classList.remove("enc-grid-marcas");
+        grid.classList.add("enc-grid-pecas");
+        guardarPosicao();
         soEncomenda(true);
         subirAteSecao();
         trocar(function() {
@@ -2410,7 +2450,7 @@
                 '<button class="product-btn">Encomendar</button>' +
               '</div>';
             item.querySelector(".product-btn").addEventListener("click", function() {
-              encomendarPeca(marca.marca, grupo.tipo, peca.nome);
+              encomendarPeca(marca.marca, grupo.tipo, peca.nome, temFoto ? peca.fotos[0] : null);
             });
             if (temFoto && peca.fotos.length > 1) {
               (function(slides) {
@@ -2427,14 +2467,20 @@
         });
       }
 
-      function encomendarPeca(marca, tipo, peca) {
+      /* endereco completo da foto, para colar na mensagem do WhatsApp */
+      function enderecoDaFoto(foto) {
+        var base = location.origin + location.pathname.replace(/[^/]*$/, "");
+        return base + encodeURI(foto);
+      }
+
+      function encomendarPeca(marca, tipo, peca, foto) {
         var msg = "Olá, tudo bem? Vim pelo site do PB Club e gostaria de encomendar: " +
                   peca + " — " + marca + " (" + tipo + ").";
+        if (foto) msg += "\n\n" + enderecoDaFoto(foto);
         window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg), "_blank");
       }
 
       voltar.addEventListener("click", function() {
-        subirAteSecao();
         if (tipoAtual) { mostrarTipos(marcaAtual); }
         else { mostrarMarcas(); }
       });
