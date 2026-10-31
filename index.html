@@ -45,17 +45,6 @@
       transition: opacity 1.4s ease;
     }
     .hero-video.loaded { opacity: 1; }
-    /* esconde o botão de play/pause que o iPhone mostra no vídeo */
-    .hero-video { pointer-events: none; }
-    .hero-video::-webkit-media-controls,
-    .hero-video::-webkit-media-controls-panel,
-    .hero-video::-webkit-media-controls-play-button,
-    .hero-video::-webkit-media-controls-start-playback-button,
-    .hero-video::-webkit-media-controls-overlay-play-button {
-      display: none !important;
-      -webkit-appearance: none;
-      opacity: 0 !important;
-    }
 
     .hero-overlay {
       position: absolute;
@@ -474,35 +463,6 @@
     .product-btn:hover { background: #c79a32; border-color: #c79a32; color: #ffffff; }
     .product-btn:hover::after { left: 130%; }
 
-    /* Celular: produtos em 2 colunas */
-    @media (max-width: 600px) {
-      .products-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-        padding: 28px 0 20px;
-      }
-      .product-card:hover { transform: none; }
-      .product-status {
-        top: 8px; left: 8px;
-        padding: 4px 7px;
-        font-size: 7.5px;
-        letter-spacing: 1px;
-        gap: 5px;
-      }
-      .product-status::before { width: 6px; height: 6px; }
-      .product-info { padding: 10px; }
-      .product-cat-tag { font-size: 8px; letter-spacing: 1.5px; margin-bottom: 4px; }
-      .product-name { font-size: 14px; line-height: 1.25; }
-      .product-price { font-size: 18px; margin-top: 5px; }
-      .product-btn {
-        margin-top: 10px;
-        padding: 9px 4px;
-        font-size: 8.5px;
-        letter-spacing: 1px;
-      }
-      .product-media::after { font-size: 8px; padding: 7px; letter-spacing: 1.5px; }
-    }
-
     /* reveal on scroll */
     .reveal {
       opacity: 0;
@@ -838,6 +798,219 @@
       .detail-name { font-size: 28px; }
     }
 
+
+    /* ===== ENCOMENDAS ===== */
+    #encomendas { scroll-margin-top: 72px; }
+    .enc-section { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    .enc-intro {
+      max-width: 540px;
+      margin: 22px auto 0;
+      font-size: 13px;
+      line-height: 2;
+      color: #4d5f84;
+    }
+
+    .enc-path {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+    .enc-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: transparent;
+      border: 0.5px solid rgba(184,146,46,0.55);
+      color: #122a5e;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 17px;
+      cursor: pointer;
+      transition: all 0.35s;
+    }
+    .enc-back:hover { background: #c79a32; border-color: #c79a32; color: #ffffff; }
+    .enc-back[hidden] { display: none; }
+
+    .enc-crumb {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      letter-spacing: 1px;
+      color: #5b76b8;
+    }
+    .enc-crumb b { color: #122a5e; font-weight: 600; }
+
+    .enc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 2px;
+      padding: 30px 0 24px;
+      transition: opacity 0.25s ease;
+    }
+
+    .enc-tile {
+      background: #ffffff;
+      border: 0.5px solid rgba(184,146,46,0.30);
+      padding: 26px 16px 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+    }
+    .enc-tile:hover {
+      border-color: rgba(184,146,46,0.75);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(20,34,63,0.16);
+    }
+    .enc-mono {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 38px;
+      letter-spacing: 3px;
+      line-height: 1;
+      background: linear-gradient(90deg, #b0892e, #e3c777, #b0892e);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: goldShine 4s linear infinite;
+    }
+    .enc-logo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0.9;
+      transition: transform 0.5s, opacity 0.4s;
+    }
+    .enc-tile:hover .enc-logo { transform: scale(1.06); opacity: 1; }
+
+    /* dentro de uma marca, o estoque some: a pagina fica so com a encomenda */
+    body.so-encomenda .hero,
+    body.so-encomenda .catalog,
+    body.so-encomenda .whatsapp-section,
+    body.so-encomenda .about-section { display: none; }
+    body.so-encomenda .enc-section .section-head { padding-top: 40px; }
+
+    /* a Denim Tears preenche o quadro branco inteiro, de ponta a ponta */
+    .enc-logo[src*="denim%20tears"] { object-fit: cover; opacity: 1; }
+
+    /* quadro de marca: so a logo, sem texto embaixo */
+    .enc-tile.enc-brand {
+      padding: 0;
+      aspect-ratio: 3 / 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* quadro de tipo de peca: so o nome e a quantidade, centralizados */
+    .enc-tile.enc-tipo {
+      aspect-ratio: 3 / 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .enc-tile.enc-tipo .enc-tile-name { margin-top: 0; font-size: 20px; }
+    .enc-tile-name {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 17px;
+      color: #122a5e;
+      margin-top: 16px;
+    }
+    .enc-tile-sub {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #5b76b8;
+      margin-top: 9px;
+    }
+
+    .enc-item {
+      background: #ffffff;
+      border: 0.5px solid rgba(184,146,46,0.30);
+      overflow: hidden;
+      transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+    }
+    .enc-item:hover {
+      border-color: rgba(184,146,46,0.75);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(20,34,63,0.16);
+    }
+    .enc-photo {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: linear-gradient(140deg, #f4f0e6 0%, #eef1f8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .enc-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    /* peca com mais de uma foto: troca sozinha a cada 3 segundos */
+    .enc-photo .slide { opacity: 0; transition: opacity 0.8s ease-in-out; }
+    .enc-photo .slide.active { opacity: 1; }
+    .enc-photo i { font-size: 46px; color: rgba(184,146,46,0.32); }
+    .enc-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 4;
+      background: rgba(255,255,255,0.92);
+      border: 0.5px solid rgba(184,146,46,0.45);
+      padding: 5px 10px;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #b0892e;
+    }
+    .enc-item-info { padding: 14px; border-top: 0.5px solid rgba(184,146,46,0.22); }
+    .enc-item-info .product-btn { margin-top: 0; }
+    .enc-item-tag {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #5b76b8;
+      margin-bottom: 6px;
+    }
+    .enc-item-name { font-family: 'Bodoni Moda', serif; font-size: 18px; color: #122a5e; }
+    .enc-item-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 21px;
+      font-weight: 600;
+      margin-top: 8px;
+      background: linear-gradient(90deg, #b0892e, #e3c777, #b0892e);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: goldShine 4s linear infinite;
+    }
+    .enc-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px 20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      color: #5b76b8;
+      border: 0.5px dashed rgba(184,146,46,0.45);
+    }
+
+    @media (max-width: 680px) {
+      .enc-tile { padding: 30px 14px; }
+      .enc-tile.enc-brand { padding: 0; }
+      .enc-grid.enc-grid-marcas { grid-template-columns: repeat(2, 1fr); }
+      .enc-mono { font-size: 31px; }
+      .enc-crumb { font-size: 16px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; transition: none; }
       .moon, .waves use, .moon-reflection, .scroll-cue, .gold-line::after, .hero-logo, .hero-tagline, .hero-sub { animation: none; opacity: 1; }
@@ -848,28 +1021,9 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero">
-    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback preload="auto" onplaying="this.classList.add('loaded')">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" onloadeddata="this.classList.add('loaded')">
       <source src="intro.mp4" type="video/mp4" />
     </video>
-    <script>
-      /* Só mostra o vídeo quando ele estiver tocando de verdade.
-         Se o celular bloquear (ex.: modo de pouca energia do iPhone),
-         fica o fundo da lua no lugar, sem símbolo de play/pause,
-         e o vídeo tenta tocar de novo no primeiro toque na tela. */
-      (function () {
-        var v = document.querySelector('.hero-video');
-        if (!v) return;
-        v.muted = true;
-        function tryPlay() { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-        tryPlay();
-        ['touchstart', 'click', 'scroll'].forEach(function (ev) {
-          window.addEventListener(ev, function once() {
-            if (v.paused) tryPlay();
-            window.removeEventListener(ev, once);
-          }, { passive: true });
-        });
-      })();
-    </script>
     <div class="hero-overlay"></div>
 
     <div class="moon"></div>
@@ -902,6 +1056,7 @@
       <a href="#catalogo" data-filter="camisas">Camisas</a>
       <a href="#catalogo" data-filter="casacos">Casacos</a>
       <a href="#catalogo" data-filter="acessorios">Acessórios</a>
+      <a href="#encomendas">Encomendas</a>
     </div>
     <div class="nav-search">
       <i class="ti ti-search"></i>
@@ -912,7 +1067,7 @@
   <!-- ===== CATALOG ===== -->
   <div class="catalog" id="catalogo">
     <div class="section-head reveal">
-      <div class="eyebrow">Coleção</div>
+      <div class="eyebrow">Em estoque</div>
       <h2 id="category-label">A Coleção</h2>
       <div class="gold-line"></div>
     </div>
@@ -990,11 +1145,10 @@
       </div>
 
       <!-- CAMISAS -->
-      <div class="product-card reveal" data-category="camisas" data-colors="Branco:#f2f0ea,Preto:#1a1a1a,Azul escuro:#1e2d4d" data-sizes="M,L">
+      <div class="product-card reveal" data-category="camisas" data-colors="Branco:#f2f0ea,Azul escuro:#1e2d4d" data-sizes="M,L">
         <div class="product-media" data-slideshow>
           <span class="product-status available">Disponível</span>
           <img src="camisa%20polo%20ralph%20lauren%20branca.jpg" class="slide active" alt="Camisa Polo Ralph Lauren Branco" />
-          <img src="camisa%20polo%20ralph%20lauren%20preta.jpg" class="slide" alt="Camisa Polo Ralph Lauren Preto" />
           <img src="camisa%20polo%20ralph%20lauren%20azul%20escura.jpg" class="slide" alt="Camisa Polo Ralph Lauren Azul escuro" />
         </div>
         <div class="product-info">
@@ -1080,6 +1234,23 @@
 
     </div>
   </div>
+
+  <!-- ===== ENCOMENDAS ===== -->
+  <section class="enc-section" id="encomendas">
+    <div class="section-head reveal">
+      <div class="eyebrow">Sob encomenda</div>
+      <h2>Encomendas</h2>
+      <div class="gold-line"></div>
+      <p class="enc-intro">Peças que não estão no estoque e são feitas sob encomenda. Escolha a marca, depois o tipo de peça, e fale comigo no WhatsApp para fazer o seu pedido.</p>
+    </div>
+
+    <div class="enc-path">
+      <button class="enc-back" id="enc-back" hidden><i class="ti ti-arrow-left"></i> Voltar</button>
+      <div class="enc-crumb" id="enc-crumb">Escolha uma marca</div>
+    </div>
+
+    <div class="enc-grid" id="enc-grid"></div>
+  </section>
 
   <!-- ===== WHATSAPP ===== -->
   <div class="whatsapp-section reveal">
@@ -1193,17 +1364,21 @@
       });
     }
 
-    document.querySelectorAll(".nav-links a").forEach(function(link) {
+    document.querySelectorAll(".nav-links a[data-filter]").forEach(function(link) {
       link.addEventListener("click", function() {
         document.querySelectorAll(".nav-links a").forEach(function(a) { a.classList.remove("active"); });
         this.classList.add("active");
         currentFilter = this.dataset.filter;
         document.getElementById("category-label").textContent = labels[currentFilter];
+        if (window.voltarParaAsMarcas) window.voltarParaAsMarcas();
         applyFilter();
       });
     });
 
-    document.getElementById("search-input").addEventListener("input", applyFilter);
+    document.getElementById("search-input").addEventListener("input", function() {
+      if (window.voltarParaAsMarcas) window.voltarParaAsMarcas();
+      applyFilter();
+    });
 
     function openWhatsApp(item) {
       var msg = "Olá, tudo bem? Vim pelo site do PB Club e tenho interesse na peça: " + item + ".";
@@ -1473,6 +1648,803 @@
     document.addEventListener("keydown", function(e) {
       if (e.key === "Escape") closeDetail();
     });
+
+    /* ====================================================================
+       ENCOMENDAS — É AQUI QUE VOCÊ MEXE
+
+       Cada marca tem tipos de peça, e cada tipo tem as peças.
+       Cada tipo comeca com UMA peca. Para acrescentar outra peca do mesmo
+       tipo (uma segunda camisa da Burberry, por exemplo), copie a linha
+       { nome: "Camisa", fotos: [] } e cole embaixo, separada por virgula:
+           { nome: "Camisa", fotos: ["burberry camisa 1.jpg"] },
+           { nome: "Camisa", fotos: ["burberry camisa 2.jpg"] }
+       Como o card mostra so a foto, o nome serve para a mensagem do
+       WhatsApp e para a etiqueta que aparece ao passar o mouse.
+
+       Para ADICIONAR UMA MARCA, copie um bloco inteiro { marca: ... },
+       cole embaixo e troque os nomes.
+
+       A logo da marca e o  logo: "arquivo.png"  logo depois do nome dela.
+       Todas as logos foram deixadas no mesmo tamanho (600x300), para
+       ficarem iguaizinhas no site. Se tirar o  logo: ...  a marca volta a
+       aparecer com as iniciais em dourado.
+
+       Para COLOCAR UMA FOTO numa peça:
+       1) salve a foto na pasta pbclub (a mesma do index.html)
+       2) escreva o nome do arquivo dentro dos colchetes, entre aspas.
+          Exemplo:  fotos: ["gats maison margiela 1.jpg"]
+          Pode pôr mais de uma, separadas por vírgula: com duas ou mais, o
+          card troca de foto sozinho a cada 3 segundos.
+       Enquanto a lista de fotos estiver vazia ( fotos: [] ),
+       a peça aparece com o desenho de cabide e o aviso "Foto em breve".
+       ==================================================================== */
+    /* Sempre que uma foto for refeita mantendo o mesmo nome de arquivo,
+       suba este número em 1. Ele vai junto no endereço da imagem e obriga
+       o navegador a baixar a versão nova em vez de mostrar a antiga que
+       ficou guardada no cache. */
+    var VERSAO_FOTOS = 21;
+
+    var encomendas = [
+      { marca: "Birkenstock", logo: "logo birkenstock.png", tipos: [
+        { tipo: "Calçados", pecas: [
+          { nome: "Boston Preto", fotos: ["birkenstock boston preto.jpg"] },
+          { nome: "Boston Marrom", fotos: ["birkenstock boston marrom.jpg"] },
+          { nome: "Boston Caramelo", fotos: ["birkenstock boston caramelo.jpg"] },
+          { nome: "Boston Taupe", fotos: ["birkenstock boston taupe.jpg"] },
+          { nome: "Boston Khaki", fotos: ["birkenstock boston khaki.jpg"] },
+          { nome: "Boston Bege", fotos: ["birkenstock boston bege.jpg"] },
+          { nome: "Boston Areia", fotos: ["birkenstock boston areia.jpg"] },
+          { nome: "Boston Cinza", fotos: ["birkenstock boston cinza.jpg"] },
+          { nome: "Boston Azul marinho", fotos: ["birkenstock boston azul marinho.jpg"] },
+          { nome: "Boston Azul claro", fotos: ["birkenstock boston azul claro.jpg"] },
+          { nome: "Arizona Preta", fotos: ["birkenstock arizona preta.jpg"] },
+          { nome: "Arizona Preta Camurça", fotos: ["birkenstock arizona preta camurca.jpg"] },
+          { nome: "Arizona Marrom", fotos: ["birkenstock arizona marrom.jpg"] },
+          { nome: "Arizona Marrom Camurça", fotos: ["birkenstock arizona marrom camurca.jpg"] },
+          { nome: "Arizona Taupe", fotos: ["birkenstock arizona taupe.jpg"] },
+          { nome: "Arizona Creme", fotos: ["birkenstock arizona creme.jpg"] },
+          { nome: "Arizona Branca", fotos: ["birkenstock arizona branca.jpg"] },
+          { nome: "Arizona Cinza Claro", fotos: ["birkenstock arizona cinza claro.jpg"] },
+          { nome: "Arizona Cinza Escuro", fotos: ["birkenstock arizona cinza escuro.jpg"] },
+          { nome: "Arizona Verde Militar", fotos: ["birkenstock arizona verde militar.jpg"] },
+          { nome: "Arizona Azul Marinho", fotos: ["birkenstock arizona azul marinho.jpg"] }
+        ]}
+      ]},
+      { marca: "Burberry", logo: "logo burberry.png", tipos: [
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta Logo Listras", fotos: ["burberry camiseta logo listras.jpg"] },
+          { nome: "Camiseta Logo Curvo Preta", fotos: ["burberry camiseta logo curvo preta.jpg"] },
+          { nome: "Camiseta Logo Curvo Branca", fotos: ["burberry camiseta logo curvo branca.jpg"] },
+          { nome: "Camiseta Logo Pequeno", fotos: ["burberry camiseta logo pequeno.jpg"] },
+          { nome: "Camiseta Cavalinho Preta", fotos: ["burberry camiseta cavalinho preta.jpg"] },
+          { nome: "Camiseta Cavalinho Branca", fotos: ["burberry camiseta cavalinho branca.jpg"] },
+          { nome: "Camiseta TB Azul Marinho", fotos: ["burberry camiseta tb azul marinho.jpg"] },
+          { nome: "Polo Preta", fotos: ["burberry polo preta.jpg"] },
+          { nome: "Polo Branca", fotos: ["burberry polo branca.jpg"] },
+          { nome: "Polo Gola Lisa Preta", fotos: ["burberry polo gola lisa preta.jpg"] },
+          { nome: "Polo Gola Lisa Branca", fotos: ["burberry polo gola lisa branca.jpg"] }
+        ]},
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Zíper Preto", fotos: ["burberry moletom ziper preto.jpg"] },
+          { nome: "Moletom Zíper Cinza", fotos: ["burberry moletom ziper cinza.jpg"] },
+          { nome: "Moletom Estampa Preto", fotos: ["burberry moletom estampa preto.jpg"] },
+          { nome: "Moletom Cavalinho Preto", fotos: ["burberry moletom cavalinho preto.jpg"] },
+          { nome: "Moletom Cavalinho Pequeno Preto", fotos: ["burberry moletom cavalinho pequeno preto.jpg"] },
+          { nome: "Moletom Cavalinho Chumbo", fotos: ["burberry moletom cavalinho chumbo.jpg"] },
+          { nome: "Moletom Cavalinho Xadrez Preto", fotos: ["burberry moletom cavalinho xadrez preto.jpg"] },
+          { nome: "Moletom Cristais Preto", fotos: ["burberry moletom cristais preto.jpg"] },
+          { nome: "Moletom Logo Preto", fotos: ["burberry moletom logo preto.jpg"] },
+          { nome: "Moletom Mangas Xadrez Preto", fotos: ["burberry moletom mangas xadrez preto.jpg"] },
+          { nome: "Moletom Gola Careca Preto", fotos: ["burberry moletom gola careca preto.jpg"] }
+        ]},
+        { tipo: "Sandálias", pecas: [
+          { nome: "Slide Xadrez Bege", fotos: ["burberry slide xadrez bege.jpg"] },
+          { nome: "Slide Xadrez Cinza", fotos: ["burberry slide xadrez cinza.jpg"] }
+        ]}
+      ]},
+      { marca: "Chrome Hearts", logo: "logo chrome hearts.png", tipos: [
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta Cruzes Cemetery Branca", fotos: ["chrome hearts camiseta cruzes cemetery branca.jpg"] },
+          { nome: "Camiseta Ferradura Colorida Branca", fotos: ["chrome hearts camiseta ferradura colorida branca.jpg"] },
+          { nome: "Camiseta Ferradura Flor-de-Lis Branca", fotos: ["chrome hearts camiseta ferradura flor de lis branca.jpg"] },
+          { nome: "Camiseta Ferradura Azul Preta", fotos: ["chrome hearts camiseta ferradura azul preta.jpg"] },
+          { nome: "Camiseta Ferradura Strass Branca", fotos: ["chrome hearts camiseta ferradura strass branca.jpg"] },
+          { nome: "Camiseta Ferradura Cromada Branca", fotos: ["chrome hearts camiseta ferradura cromada branca.jpg"] },
+          { nome: "Camiseta Cruzes Arco-Íris Branca", fotos: ["chrome hearts camiseta cruzes arco iris branca.jpg"] },
+          { nome: "Camiseta Ferradura Cruz Azul Branca", fotos: ["chrome hearts camiseta ferradura cruz azul branca.jpg"] },
+          { nome: "Camiseta Letras Cruz Rosa Preta", fotos: ["chrome hearts camiseta letras cruz rosa preta.jpg"] },
+          { nome: "Camiseta Ferradura Respingos Branca", fotos: ["chrome hearts camiseta ferradura respingos branca.jpg"] },
+          { nome: "Camiseta Letras Cruz Rosa Branca", fotos: ["chrome hearts camiseta letras cruz rosa branca.jpg"] },
+          { nome: "Camiseta Cruzes Bordadas Preta", fotos: ["chrome hearts camiseta cruzes bordadas preta.jpg"] },
+          { nome: "Camiseta Ferradura Desgastada Preta", fotos: ["chrome hearts camiseta ferradura desgastada preta.jpg"] },
+          { nome: "Camiseta Ferradura Flor-de-Lis Preta", fotos: ["chrome hearts camiseta ferradura flor de lis preta.jpg"] },
+          { nome: "Camiseta Cruzes Tom Sobre Tom Branca", fotos: ["chrome hearts camiseta cruzes tom sobre tom branca.jpg"] },
+          { nome: "Camiseta Ferradura Azul Spray Preta", fotos: ["chrome hearts camiseta ferradura azul spray preta.jpg"] },
+          { nome: "Camiseta Ferradura Circular Preta", fotos: ["chrome hearts camiseta ferradura circular preta.jpg"] },
+          { nome: "Camiseta Ferradura Strass Preta", fotos: ["chrome hearts camiseta ferradura strass preta.jpg"] },
+          { nome: "Camiseta Mapplethorpe Branca", fotos: ["chrome hearts camiseta mapplethorpe branca.jpg"] },
+          { nome: "Camiseta Ferradura Amarela Preta", fotos: ["chrome hearts camiseta ferradura amarela preta.jpg"] },
+          { nome: "Camiseta Mapplethorpe Preta", fotos: ["chrome hearts camiseta mapplethorpe preta.jpg"] },
+          { nome: "Camiseta Cruzes Aplicadas Branca", fotos: ["chrome hearts camiseta cruzes aplicadas branca.jpg"] },
+          { nome: "Camiseta Ferradura Escorrida Branca", fotos: ["chrome hearts camiseta ferradura escorrida branca.jpg"] },
+          { nome: "Camiseta Ferradura Strass Bege", fotos: ["chrome hearts camiseta ferradura strass bege.jpg"] },
+          { nome: "Camiseta Cruz Spray Preta", fotos: ["chrome hearts camiseta cruz spray preta.jpg"] },
+          { nome: "Camiseta Cruzes Escorridas Preta", fotos: ["chrome hearts camiseta cruzes escorridas preta.jpg"] }
+        ]},
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Cruz Vermelha Preto", fotos: ["chrome hearts moletom cruz vermelha preto.jpg"] },
+          { nome: "Moletom Ferradura Pin-Up Preto", fotos: ["chrome hearts moletom ferradura pin up preto.jpg"] },
+          { nome: "Moletom Cruzes Coloridas Branco", fotos: ["chrome hearts moletom cruzes coloridas branco.jpg"] },
+          { nome: "Moletom Cruz Turquesa Preto", fotos: ["chrome hearts moletom cruz turquesa preto.jpg"] },
+          { nome: "Moletom Certified Chrome Preto", fotos: ["chrome hearts moletom certified chrome preto.jpg"] },
+          { nome: "Moletom Ferradura Cruzes Preto", fotos: ["chrome hearts moletom ferradura cruzes preto.jpg"] },
+          { nome: "Moletom Cruzes Prateadas Preto", fotos: ["chrome hearts moletom cruzes prateadas preto.jpg"] },
+          { nome: "Moletom Zíper Arabescos Branco", fotos: ["chrome hearts moletom ziper arabescos branco.jpg"] },
+          { nome: "Moletom Sex Records Preto", fotos: ["chrome hearts moletom sex records preto frente.jpg", "chrome hearts moletom sex records preto costas.jpg"] },
+          { nome: "Moletom Ferradura Azul Preto", fotos: ["chrome hearts moletom ferradura azul preto.jpg"] },
+          { nome: "Moletom Coração Vermelho Preto", fotos: ["chrome hearts moletom coracao vermelho preto.jpg"] },
+          { nome: "Moletom Cruzes Coloridas Preto", fotos: ["chrome hearts moletom cruzes coloridas preto.jpg"] },
+          { nome: "Moletom Cruzes Prateadas Branco", fotos: ["chrome hearts moletom cruzes prateadas branco.jpg"] },
+          { nome: "Moletom Ferradura Cruz Azul Branco", fotos: ["chrome hearts moletom ferradura cruz azul branco.jpg"] },
+          { nome: "Moletom Cruz Vermelha Costas Branco", fotos: ["chrome hearts moletom cruz vermelha costas branco.jpg"] },
+          { nome: "Moletom Ferradura Rosa Preto", fotos: ["chrome hearts moletom ferradura rosa preto frente.jpg", "chrome hearts moletom ferradura rosa preto costas.jpg"] },
+          { nome: "Moletom Zíper Arabescos Preto", fotos: ["chrome hearts moletom ziper arabescos preto.jpg"] },
+          { nome: "Moletom Ferradura Arabescos Preto", fotos: ["chrome hearts moletom ferradura arabescos preto.jpg"] },
+          { nome: "Moletom Zíper Cruz Rosa Preto", fotos: ["chrome hearts moletom ziper cruz rosa preto.jpg"] },
+          { nome: "Moletom Zíper Cruzes Pin-Up Preto", fotos: ["chrome hearts moletom ziper cruzes pin up preto.jpg"] },
+          { nome: "Moletom Cruz Vermelha Peito Branco", fotos: ["chrome hearts moletom cruz vermelha peito branco.jpg"] },
+          { nome: "Moletom Zíper Ferradura Vermelha Preto", fotos: ["chrome hearts moletom ziper ferradura vermelha preto frente.jpg", "chrome hearts moletom ziper ferradura vermelha preto costas.jpg"] }
+        ]}
+      ]},
+      { marca: "Comme des Garçons", logo: "logo comme des garcons.png", tipos: [
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta Coração Grande Branco Preta", fotos: ["cdg camiseta coracao grande branco preta.jpg"] },
+          { nome: "Camiseta Coração Contornado Preta", fotos: ["cdg camiseta coracao contornado preta.jpg"] },
+          { nome: "Camiseta Coração Vermelho Olhos Preta", fotos: ["cdg camiseta coracao vermelho olhos preta.jpg"] },
+          { nome: "Camiseta Coração Vermelho Preta", fotos: ["cdg camiseta coracao vermelho preta.jpg"] },
+          { nome: "Camiseta Dois Corações Preta", fotos: ["cdg camiseta dois coracoes preta.jpg"] },
+          { nome: "Camiseta Corações Espalhados Preta", fotos: ["cdg camiseta coracoes espalhados preta.jpg"] },
+          { nome: "Camiseta Coração Dourado Preta", fotos: ["cdg camiseta coracao dourado preta.jpg"] },
+          { nome: "Camiseta Coração Grande Preto Branca", fotos: ["cdg camiseta coracao grande preto branca.jpg"] },
+          { nome: "Camiseta Coração Preto Branca", fotos: ["cdg camiseta coracao preto branca.jpg"] },
+          { nome: "Camiseta Coração Vermelho Branca", fotos: ["cdg camiseta coracao vermelho branca.jpg"] },
+          { nome: "Camiseta Coração Dourado Branca", fotos: ["cdg camiseta coracao dourado branca.jpg"] },
+          { nome: "Camiseta Coração Tom Sobre Tom Preta", fotos: ["cdg camiseta coracao tom sobre tom preta.jpg"] },
+          { nome: "Camiseta Coração Dourado Azul Marinho", fotos: ["cdg camiseta coracao dourado azul marinho.jpg"] },
+          { nome: "Camiseta PLAY Preta", fotos: ["cdg camiseta play preta.jpg"] },
+          { nome: "Camiseta Coração Camuflado Branca", fotos: ["cdg camiseta coracao camuflado branca.jpg"] },
+          { nome: "Camiseta Meio Coração Branca", fotos: ["cdg camiseta meio coracao branca.jpg"] }
+        ]},
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Zíper Coração Tom Sobre Tom Preto", fotos: ["cdg moletom ziper coracao tom sobre tom preto.jpg"] },
+          { nome: "Moletom Zíper Coração Vermelho Preto", fotos: ["cdg moletom ziper coracao vermelho preto.jpg"] },
+          { nome: "Moletom Zíper Cordão Branco Preto", fotos: ["cdg moletom ziper cordao branco preto.jpg"] },
+          { nome: "Moletom Zíper Coração Vermelho Cinza", fotos: ["cdg moletom ziper coracao vermelho cinza.jpg"] },
+          { nome: "Moletom Canguru Coração Vermelho Preto", fotos: ["cdg moletom canguru coracao vermelho preto.jpg"] },
+          { nome: "Moletom PLAY Frente Preto", fotos: ["cdg moletom play frente preto.jpg"] },
+          { nome: "Moletom PLAY Preto", fotos: ["cdg moletom play preto.jpg"] },
+          { nome: "Suéter Gola V Coração Vermelho Preto", fotos: ["cdg sueter gola v coracao vermelho preto.jpg"] }
+        ]}
+      ]},
+      { marca: "Denim Tears", logo: "logo denim tears.png", tipos: [
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Flor de Algodão Azul Marinho", fotos: ["denim tears moletom flor azul marinho.jpg"] },
+          { nome: "Moletom Flor de Algodão Preto", fotos: ["denim tears moletom flor preto.jpg"] },
+          { nome: "Moletom Flor de Algodão Azul Claro", fotos: ["denim tears moletom flor azul claro.jpg"] },
+          { nome: "Moletom Flor de Algodão Azul Petróleo", fotos: ["denim tears moletom flor azul petroleo.jpg"] },
+          { nome: "Moletom Flor de Algodão Cinza", fotos: ["denim tears moletom flor cinza.jpg"] },
+          { nome: "Moletom Flor de Algodão Preto Tom Sobre Tom", fotos: ["denim tears moletom flor preto tom sobre tom.jpg"] },
+          { nome: "Moletom Flor de Algodão Rosa", fotos: ["denim tears moletom flor rosa.jpg"] },
+          { nome: "Moletom Zíper Flor de Algodão Azul Royal", fotos: ["denim tears moletom ziper flor azul royal.jpg"] },
+          { nome: "Moletom Zíper Flor de Algodão Preto", fotos: ["denim tears moletom ziper flor preto.jpg"] },
+          { nome: "Moletom Zíper Flor de Algodão Cinza Mescla", fotos: ["denim tears moletom ziper flor cinza mescla.jpg"] },
+          { nome: "Moletom Zíper Flor de Algodão Verde", fotos: ["denim tears moletom ziper flor verde.jpg"] },
+          { nome: "Moletom Zíper Flor de Algodão Preto Tom Sobre Tom", fotos: ["denim tears moletom ziper flor preto tom sobre tom.jpg"] }
+        ]}
+      ]},
+      { marca: "Essentials", logo: "logo essentials.png", tipos: [
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Capuz Preto Logo Branco", fotos: ["essentials moletom capuz preto.jpg"] },
+          { nome: "Moletom Capuz Preto Logo Preto", fotos: ["essentials moletom capuz preto logo preto.jpg"] },
+          { nome: "Moletom Capuz Cinza", fotos: ["essentials moletom capuz cinza.jpg"] }
+        ]},
+        { tipo: "Calças", pecas: [
+          { nome: "Calça Moletom Preta", fotos: ["essentials calca moletom preta.jpg"] },
+          { nome: "Calça Moletom Cinza", fotos: ["essentials calca moletom cinza.jpg"] }
+        ]}
+      ]},
+      { marca: "Ferragamo", logo: "logo ferragamo.png", tipos: [
+        { tipo: "Cintos", pecas: [
+          { nome: "Cinto Gancini Prata Reversível", fotos: ["ferragamo cinto gancini prata.jpg"] },
+          { nome: "Cinto Gancini Dourado Preto", fotos: ["ferragamo cinto gancini dourado.jpg"] },
+          { nome: "Cinto Gancini Preto Cinza", fotos: ["ferragamo cinto gancini preto.jpg"] }
+        ]}
+      ]},
+      { marca: "Golden Goose", logo: "logo golden goose.png", tipos: [
+        { tipo: "Tênis", pecas: [
+          { nome: "Super-Star Preta", fotos: ["golden goose super star preta.jpg"] },
+          { nome: "Super-Star Estrela Preta", fotos: ["golden goose super star estrela preta.jpg"] },
+          { nome: "Super-Star Calcanhar Preto", fotos: ["golden goose super star calcanhar preto.jpg"] },
+          { nome: "Super-Star Estrela Dourada", fotos: ["golden goose super star estrela dourada.jpg"] },
+          { nome: "Super-Star Glitter Prata", fotos: ["golden goose super star glitter prata.jpg"] },
+          { nome: "Ball Star Estrela Azul", fotos: ["golden goose ball star estrela azul.jpg"] },
+          { nome: "Ball Star Estrela Vermelha", fotos: ["golden goose ball star estrela vermelha.jpg"] },
+          { nome: "Ball Star Estrela Verde", fotos: ["golden goose ball star estrela verde.jpg"] },
+          { nome: "Ball Star Calcanhar Verde", fotos: ["golden goose ball star calcanhar verde.jpg"] },
+          { nome: "Ball Star Calcanhar Laranja", fotos: ["golden goose ball star calcanhar laranja.jpg"] },
+          { nome: "Ball Star Estrela Marrom", fotos: ["golden goose ball star estrela marrom.jpg"] },
+          { nome: "Ball Star Assinatura Dourada", fotos: ["golden goose ball star assinatura dourada.jpg"] },
+          { nome: "Ball Star Dreamed in Venice", fotos: ["golden goose ball star dreamed in venice.jpg"] },
+          { nome: "Super-Star Calcanhar Caramelo", fotos: ["golden goose super star calcanhar caramelo.jpg"] },
+          { nome: "Super-Star Estrela Preta Calcanhar Azul", fotos: ["golden goose super star estrela preta calcanhar azul.jpg"] },
+          { nome: "Super-Star Estrela Azul", fotos: ["golden goose super star estrela azul.jpg"] },
+          { nome: "Super-Star Calcanhar Verde", fotos: ["golden goose super star calcanhar verde.jpg"] },
+          { nome: "Super-Star Estrela Vermelha", fotos: ["golden goose super star estrela vermelha.jpg"] },
+          { nome: "Super-Star Calcanhar Camurça", fotos: ["golden goose super star calcanhar camurca.jpg"] },
+          { nome: "Ball Star Estrela Azul Calcanhar Preto", fotos: ["golden goose ball star estrela azul calcanhar preto.jpg"] },
+          { nome: "Ball Star Calcanhar Dourado", fotos: ["golden goose ball star calcanhar dourado.jpg"] },
+          { nome: "Ball Star Preta", fotos: ["golden goose ball star preta.jpg"] },
+          { nome: "Super-Star Camurça Marrom", fotos: ["golden goose super star camurca marrom.jpg"] },
+          { nome: "Super-Star Preta e Branca", fotos: ["golden goose super star preta e branca.jpg"] },
+          { nome: "Super-Star Camurça Azul Sola Caramelo", fotos: ["golden goose super star camurca azul.jpg"] },
+          { nome: "Super-Star Camurça Verde Militar", fotos: ["golden goose super star camurca verde militar.jpg"] },
+          { nome: "Super-Star Camurça Bege", fotos: ["golden goose super star camurca bege.jpg"] },
+          { nome: "Super-Star Branca Calcanhar Marrom", fotos: ["golden goose super star branca calcanhar marrom.jpg"] }
+        ]}
+      ]},
+      { marca: "Goyard", logo: "logo goyard.png", tipos: [
+        { tipo: "Acessórios", pecas: [
+          { nome: "Porta-Cartão Preto", fotos: ["goyard porta cartao preto.jpg"] },
+          { nome: "Porta-Cartão Verde", fotos: ["goyard porta cartao verde.jpg"] },
+          { nome: "Porta-Cartão Azul", fotos: ["goyard porta cartao azul.jpg"] },
+          { nome: "Porta-Cartão Cinza", fotos: ["goyard porta cartao cinza.jpg"] },
+          { nome: "Porta-Cartão Branco", fotos: ["goyard porta cartao branco.jpg"] }
+        ]}
+      ]},
+      { marca: "Hermès", logo: "logo hermes.png", tipos: [
+        { tipo: "Calçados", pecas: [
+          { nome: "Chypre Preta", fotos: ["hermes chypre preta.jpg"] },
+          { nome: "Chypre Caramelo", fotos: ["hermes chypre caramelo.jpg"] },
+          { nome: "Chypre Cinza", fotos: ["hermes chypre cinza.jpg"] },
+          { nome: "Chypre Branca", fotos: ["hermes chypre branca.jpg"] }
+        ]}
+      ]},
+      { marca: "Loro Piana", logo: "logo loro piana.png", tipos: [
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta — Branca, Bege, Azul Claro, Azul Marinho ou Preta", fotos: ["loro piana camisetas.jpg"] }
+        ]},
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Capuz — Preto ou Branco", fotos: ["loro piana moletons capuz.jpg"] }
+        ]},
+        { tipo: "Tênis", pecas: [
+          { nome: "Mocassim Summer Walk Preto", fotos: ["loro piana mocassim preto.jpg"] },
+          { nome: "Mocassim Summer Walk Cinza", fotos: ["loro piana mocassim cinza.jpg"] },
+          { nome: "Mocassim Summer Walk Azul Marinho", fotos: ["loro piana mocassim azul marinho.jpg"] },
+          { nome: "Mocassim Summer Walk Verde Musgo", fotos: ["loro piana mocassim verde musgo.jpg"] },
+          { nome: "Mocassim Summer Walk Marrom", fotos: ["loro piana mocassim marrom.jpg"] },
+          { nome: "Mocassim Summer Walk Bege", fotos: ["loro piana mocassim bege.jpg"] },
+          { nome: "Mocassim Summer Walk Azul", fotos: ["loro piana mocassim azul.jpg"] },
+          { nome: "Mocassim Summer Walk Branco", fotos: ["loro piana mocassim branco.jpg"] }
+        ]}
+      ]},
+      { marca: "Louis Vuitton", logo: "logo louis vuitton.png", tipos: [
+        { tipo: "Cintos", pecas: [
+          { nome: "Cinto Damier Azur Fivela Dourada", fotos: ["lv cinto damier azur.jpg"] },
+          { nome: "Cinto Damier Graphite", fotos: ["lv cinto damier graphite.jpg"] }
+        ]},
+        { tipo: "Tênis", pecas: [
+          { nome: "LV Trainer Azul Monograma", fotos: ["lv tenis trainer azul monograma.jpg"] },
+          { nome: "LV Trainer Marrom", fotos: ["lv tenis trainer marrom.jpg"] },
+          { nome: "LV Trainer Cinza Monograma", fotos: ["lv tenis trainer cinza monograma.jpg"] },
+          { nome: "LV Trainer Branco Monograma Preto", fotos: ["lv tenis trainer branco monograma preto.jpg"] },
+          { nome: "LV Trainer Jeans Azul", fotos: ["lv tenis trainer jeans azul.jpg"] }
+        ]}
+      ]},
+      { marca: "Maison Margiela", logo: "logo maison margiela.png", tipos: [
+        { tipo: "Tênis", pecas: [
+          { nome: "Replica Respingos de Tinta Preto", fotos: ["maison margiela replica respingos preto.jpg"] },
+          { nome: "Replica Camurça Caramelo", fotos: ["maison margiela replica camurca caramelo.jpg"] },
+          { nome: "Replica Azul Marinho", fotos: ["maison margiela replica azul marinho.jpg"] },
+          { nome: "Replica Respingos de Tinta Branco", fotos: ["maison margiela replica respingos branco.jpg"] },
+          { nome: "Replica Branco e Cinza", fotos: ["maison margiela replica branco e cinza.jpg"] },
+          { nome: "Replica Preto Sola Caramelo", fotos: ["maison margiela replica preto sola caramelo.jpg"] }
+        ]},
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Capuz Preto Logo Invertido", fotos: ["maison margiela moletom preto logo.jpg"] },
+          { nome: "Moletom Capuz Preto Números", fotos: ["maison margiela moletom preto numeros.jpg"] },
+          { nome: "Moletom Capuz Branco Números", fotos: ["maison margiela moletom branco numeros.jpg"] }
+        ]}
+      ]},
+      { marca: "Moncler", logo: "logo moncler.png", tipos: [
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Gola Careca Preto", fotos: ["moncler moletom gola careca preto.jpg"] },
+          { nome: "Jaqueta Acolchoada Preta", fotos: ["moncler jaqueta acolchoada preta.jpg"] },
+          { nome: "Jaqueta Puffer Preta Brilhante", fotos: ["moncler jaqueta puffer brilhante.jpg"] },
+          { nome: "Jaqueta Puffer Capuz Preta", fotos: ["moncler jaqueta puffer capuz.jpg"] }
+        ]},
+        { tipo: "Camisas", pecas: [
+          { nome: "Polo Azul Marinho", fotos: ["moncler polo azul marinho.jpg"] },
+          { nome: "Polo Branca", fotos: ["moncler polo branca.jpg"] },
+          { nome: "Camiseta Logo M Preta", fotos: ["moncler camiseta logo m preta.jpg"] },
+          { nome: "Camiseta — Preta, Branca ou Azul Marinho", fotos: ["moncler camisetas.jpg"] }
+        ]},
+        { tipo: "Shorts", pecas: [
+          { nome: "Short Nylon Preto", fotos: ["moncler short nylon preto.jpg"] },
+          { nome: "Short Nylon Azul Marinho", fotos: ["moncler short nylon azul marinho.jpg"] }
+        ]}
+      ]},
+      { marca: "Nike", logo: "logo nike.png", tipos: [
+        { tipo: "Tênis", pecas: [
+          { nome: "Jordan 1 Low Travis Scott Reverse Mocha", fotos: ["nike jordan 1 low travis scott reverse mocha.jpg"] },
+          { nome: "Jordan 1 Low Travis Scott Black Phantom", fotos: ["nike jordan 1 low travis scott black phantom.jpg"] },
+          { nome: "SB Dunk Low Travis Scott", fotos: ["nike sb dunk low travis scott.jpg"] },
+          { nome: "Jordan 1 Low Travis Scott Fragment", fotos: ["nike jordan 1 low travis scott fragment.jpg"] },
+          { nome: "Jordan 1 Low Travis Scott Mocha", fotos: ["nike jordan 1 low travis scott mocha.jpg"] }
+        ]}
+      ]},
+      { marca: "Off-White", logo: "logo off-white.png", tipos: [
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Seta Azul Preto e Branco", fotos: ["off white moletom seta azul preto e branco.jpg"] },
+          { nome: "Moletom Setas Degradê Vermelho Preto", fotos: ["off white moletom setas degrade vermelho preto.jpg"] },
+          { nome: "Moletom Seta Laranja e Azul Preto e Branco", fotos: ["off white moletom seta laranja e azul preto e branco.jpg"] },
+          { nome: "Moletom Setas Listradas Preto e Branco", fotos: ["off white moletom setas listradas preto e branco.jpg"] },
+          { nome: "Moletom Setas Rabiscadas Preto, Cinza e Branco", fotos: ["off white moletom setas rabiscadas preto cinza e branco.jpg"] },
+          { nome: "Moletom Seta Paisagem Branco e Preto", fotos: ["off white moletom seta paisagem branco e preto.jpg"] },
+          { nome: "Moletom Seta Azul Aquarela Preto e Branco", fotos: ["off white moletom seta azul aquarela preto e branco.jpg"] },
+          { nome: "Moletom Seta Vermelha Preto e Branco", fotos: ["off white moletom seta vermelha preto e branco.jpg"] },
+          { nome: "Moletom Seta Fumaça Preto e Branco", fotos: ["off white moletom seta fumaca preto e branco.jpg"] },
+          { nome: "Moletom Seta Colorida Preto e Branco", fotos: ["off white moletom seta colorida preto e branco.jpg"] },
+          { nome: "Moletom Seta Listrada Preto e Branco", fotos: ["off white moletom seta listrada preto e branco.jpg"] },
+          { nome: "Moletom Seta Tom Sobre Tom Preto", fotos: ["off white moletom seta tom sobre tom preto.jpg"] },
+          { nome: "Moletom Seta Verde Degradê Preto", fotos: ["off white moletom seta verde degrade preto.jpg"] },
+          { nome: "Moletom Seta Cinza Listrada Preto", fotos: ["off white moletom seta cinza listrada preto.jpg"] },
+          { nome: "Moletom Seta Rosa Preto e Branco", fotos: ["off white moletom seta rosa preto e branco.jpg"] },
+          { nome: "Moletom Seta Azul Claro Preto e Branco", fotos: ["off white moletom seta azul claro preto e branco.jpg"] },
+          { nome: "Moletom Faixas Amarelas Preto", fotos: ["off white moletom faixas amarelas preto.jpg"] },
+          { nome: "Moletom Seta Rosa Pincel Preto e Branco", fotos: ["off white moletom seta rosa pincel preto e branco.jpg"] },
+          { nome: "Moletom Mona Lisa Preto, Branco e Vermelho", fotos: ["off white moletom mona lisa preto branco e vermelho.jpg"] },
+          { nome: "Moletom Seta Preta Degradê Preto", fotos: ["off white moletom seta preta degrade preto.jpg"] },
+          { nome: "Moletom Seta Quadriculada Preto e Branco", fotos: ["off white moletom seta quadriculada preto e branco.jpg"] },
+          { nome: "Moletom Capuz Folhas Branco", fotos: ["off white moletom capuz folhas branco.jpg"] },
+          { nome: "Moletom Capuz Seta Dragão Azul Claro", fotos: ["off white moletom capuz seta dragao azul claro.jpg"] },
+          { nome: "Moletom Capuz Dragon Ball Preto", fotos: ["off white moletom capuz dragon ball preto.jpg"] },
+          { nome: "Moletom Capuz Seta Vermelha Branco", fotos: ["off white moletom capuz seta vermelha branco.jpg"] },
+          { nome: "Moletom Capuz Setas Azuis Preto", fotos: ["off white moletom capuz setas azuis preto.jpg"] },
+          { nome: "Moletom Capuz Seta Verde Água Preto", fotos: ["off white moletom capuz seta verde agua preto.jpg"] },
+          { nome: "Moletom Capuz Seta Colorida Preto", fotos: ["off white moletom capuz seta colorida preto.jpg"] },
+          { nome: "Moletom Capuz Listras Laranja Branco", fotos: ["off white moletom capuz listras laranja branco.jpg"] },
+          { nome: "Moletom Capuz Seta Vermelha Contorno Branco", fotos: ["off white moletom capuz seta vermelha contorno branco.jpg"] },
+          { nome: "Moletom Capuz Seta Azul Pincel Branco", fotos: ["off white moletom capuz seta azul pincel branco.jpg"] },
+          { nome: "Moletom Capuz Mãos Preto", fotos: ["off white moletom capuz maos preto.jpg"] },
+          { nome: "Moletom Capuz Logo Pequeno Preto", fotos: ["off white moletom capuz logo pequeno preto.jpg"] },
+          { nome: "Moletom Capuz Sapo Preto", fotos: ["off white moletom capuz sapo preto.jpg"] },
+          { nome: "Moletom Capuz Colagem Colorida Preto", fotos: ["off white moletom capuz colagem colorida preto.jpg"] },
+          { nome: "Moletom Capuz Seta Cinza Preto", fotos: ["off white moletom capuz seta cinza preto.jpg"] },
+          { nome: "Moletom Capuz Listras Bege Preto", fotos: ["off white moletom capuz listras bege preto.jpg"] },
+          { nome: "Moletom Capuz Listras Brancas Preto", fotos: ["off white moletom capuz listras brancas preto.jpg"] },
+          { nome: "Moletom Capuz Bandana Branco", fotos: ["off white moletom capuz bandana branco.jpg"] },
+          { nome: "Moletom Capuz Seta Listrada Colorida Branco", fotos: ["off white moletom capuz seta listrada colorida branco.jpg"] },
+          { nome: "Moletom Capuz Seta Colorida Creme", fotos: ["off white moletom capuz seta colorida creme.jpg"] },
+          { nome: "Moletom Capuz Seta Azul Contorno Branco", fotos: ["off white moletom capuz seta azul contorno branco.jpg"] },
+          { nome: "Moletom Capuz Rabisco Creme", fotos: ["off white moletom capuz rabisco creme.jpg"] },
+          { nome: "Moletom Capuz Seta Vermelha Preto", fotos: ["off white moletom capuz seta vermelha preto.jpg"] },
+          { nome: "Moletom Capuz Folhas Verdes Preto", fotos: ["off white moletom capuz folhas verdes preto.jpg"] },
+          { nome: "Moletom Capuz Caravaggio Branco", fotos: ["off white moletom capuz caravaggio branco.jpg"] },
+          { nome: "Moletom Capuz Seta Azul Pincel Preto", fotos: ["off white moletom capuz seta azul pincel preto.jpg"] },
+          { nome: "Moletom Capuz Seta Rosa Pincel Preto", fotos: ["off white moletom capuz seta rosa pincel preto.jpg"] },
+          { nome: "Moletom Capuz Seta Spray Preto", fotos: ["off white moletom capuz seta spray preto.jpg"] },
+          { nome: "Moletom Capuz Seta Rabiscada Creme", fotos: ["off white moletom capuz seta rabiscada creme.jpg"] },
+          { nome: "Moletom Capuz Estampa no Peito Branco", fotos: ["off white moletom capuz estampa no peito branco.jpg"] },
+          { nome: "Moletom Capuz Tênis Preto", fotos: ["off white moletom capuz tenis preto.jpg"] },
+          { nome: "Moletom Capuz Sapo Branco", fotos: ["off white moletom capuz sapo branco.jpg"] },
+          { nome: "Moletom Capuz Detalhes Verdes Branco", fotos: ["off white moletom capuz detalhes verdes branco.jpg"] },
+          { nome: "Moletom Capuz Seta Azul Pincel Grande Branco", fotos: ["off white moletom capuz seta azul pincel grande branco.jpg"] },
+          { nome: "Moletom Capuz Listras nas Mangas Branco", fotos: ["off white moletom capuz listras nas mangas branco.jpg"] },
+          { nome: "Moletom Capuz Seta Verde Água Branco", fotos: ["off white moletom capuz seta verde agua branco.jpg"] },
+          { nome: "Moletom Capuz Caravaggio Preto", fotos: ["off white moletom capuz caravaggio preto.jpg"] },
+          { nome: "Moletom Capuz Seta Preta Branco", fotos: ["off white moletom capuz seta preta branco.jpg"] },
+          { nome: "Moletom Capuz Zíper Faixas Coloridas Preto", fotos: ["off white moletom capuz ziper faixas coloridas preto.jpg"] },
+          { nome: "Moletom Capuz Bordados Coloridos Creme", fotos: ["off white moletom capuz bordados coloridos creme.jpg"] },
+          { nome: "Moletom Capuz Pintura Preto", fotos: ["off white moletom capuz pintura preto.jpg"] },
+          { nome: "Moletom Capuz OFF Preto", fotos: ["off white moletom capuz off preto.jpg"] }
+        ]},
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta Seta Colorida Preta e Branca", fotos: ["off white camiseta seta colorida preta e branca.jpg"] },
+          { nome: "Camiseta Pintura Vermelha Branca e Preta", fotos: ["off white camiseta pintura vermelha branca e preta.jpg"] },
+          { nome: "Camiseta Seta Degradê Laranja Preta", fotos: ["off white camiseta seta degrade laranja preta.jpg"] },
+          { nome: "Camiseta Seta Rabiscada Preta", fotos: ["off white camiseta seta rabiscada preta.jpg"] },
+          { nome: "Camiseta Seta Azul Pincel Branca", fotos: ["off white camiseta seta azul pincel branca.jpg"] },
+          { nome: "Camiseta Setas Riscadas Preta", fotos: ["off white camiseta setas riscadas preta.jpg"] },
+          { nome: "Camiseta Seta Cinza Preta", fotos: ["off white camiseta seta cinza preta.jpg"] },
+          { nome: "Camiseta Seta Listrada Branca", fotos: ["off white camiseta seta listrada branca.jpg"] },
+          { nome: "Camiseta Seta Spray Azul Branca", fotos: ["off white camiseta seta spray azul branca.jpg"] },
+          { nome: "Camiseta Seta Vermelha Branca", fotos: ["off white camiseta seta vermelha branca.jpg"] },
+          { nome: "Camiseta Mona Lisa Preta", fotos: ["off white camiseta mona lisa preta.jpg"] },
+          { nome: "Camiseta Seta Azul Claro Preta", fotos: ["off white camiseta seta azul claro preta.jpg"] },
+          { nome: "Camiseta Seta Vermelha Preta", fotos: ["off white camiseta seta vermelha preta.jpg"] },
+          { nome: "Camiseta Seta Azul Pincel Preta", fotos: ["off white camiseta seta azul pincel preta.jpg"] },
+          { nome: "Camiseta Seta Cinza Escura Preta", fotos: ["off white camiseta seta cinza escura preta.jpg"] },
+          { nome: "Camiseta Setas Azuis Preta", fotos: ["off white camiseta setas azuis preta.jpg"] },
+          { nome: "Camiseta Seta Verde Água Branca", fotos: ["off white camiseta seta verde agua branca.jpg"] },
+          { nome: "Camiseta Seta Listrada Preta", fotos: ["off white camiseta seta listrada preta.jpg"] },
+          { nome: "Camiseta Seta Branca Preta", fotos: ["off white camiseta seta branca preta.jpg"] },
+          { nome: "Camiseta Seta Listrada Diagonal Branca", fotos: ["off white camiseta seta listrada diagonal branca.jpg"] },
+          { nome: "Camiseta Seta Verde Preta", fotos: ["off white camiseta seta verde preta.jpg"] },
+          { nome: "Camiseta Seta Azul Claro Branca", fotos: ["off white camiseta seta azul claro branca.jpg"] },
+          { nome: "Camiseta Pintura Preta", fotos: ["off white camiseta pintura preta.jpg"] },
+          { nome: "Camiseta Detalhes Verdes Branca", fotos: ["off white camiseta detalhes verdes branca.jpg"] },
+          { nome: "Camiseta Seta Spray Cinza Branca", fotos: ["off white camiseta seta spray cinza branca.jpg"] },
+          { nome: "Camiseta Pintura Rosa Preta", fotos: ["off white camiseta pintura rosa preta.jpg"] },
+          { nome: "Camiseta Seta Aquarela Branca", fotos: ["off white camiseta seta aquarela branca.jpg"] },
+          { nome: "Camiseta Seta Bege Branca", fotos: ["off white camiseta seta bege branca.jpg"] },
+          { nome: "Camiseta Seta Preta Branca", fotos: ["off white camiseta seta preta branca.jpg"] },
+          { nome: "Camiseta Seta Colagem Branca", fotos: ["off white camiseta seta colagem branca.jpg"] },
+          { nome: "Camiseta Seta Bege Preta", fotos: ["off white camiseta seta bege preta.jpg"] },
+          { nome: "Camiseta Lisa Branca", fotos: ["off white camiseta lisa branca.jpg"] },
+          { nome: "Camiseta Seta Preta Contorno Branca", fotos: ["off white camiseta seta preta contorno branca.jpg"] },
+          { nome: "Camiseta Seta Azul Esboço Preta", fotos: ["off white camiseta seta azul esboco preta.jpg"] },
+          { nome: "Camiseta Seta Branca Contorno Preta", fotos: ["off white camiseta seta branca contorno preta.jpg"] },
+          { nome: "Camiseta Pintura Rosa Branca", fotos: ["off white camiseta pintura rosa branca.jpg"] },
+          { nome: "Camiseta Seta Azul Spray Preta", fotos: ["off white camiseta seta azul spray preta.jpg"] },
+          { nome: "Camiseta Seta Rosa e Laranja Preta", fotos: ["off white camiseta seta rosa e laranja preta.jpg"] },
+          { nome: "Camiseta Setas Brancas Pincel Preta", fotos: ["off white camiseta setas brancas pincel preta.jpg"] },
+          { nome: "Camiseta Seta Rosa Preta", fotos: ["off white camiseta seta rosa preta.jpg"] },
+          { nome: "Camiseta Seta Coral Branca", fotos: ["off white camiseta seta coral branca.jpg"] },
+          { nome: "Camiseta Seta Preta Grande Branca", fotos: ["off white camiseta seta preta grande branca.jpg"] },
+          { nome: "Camiseta Seta Listrada Branca Preta", fotos: ["off white camiseta seta listrada branca preta.jpg"] },
+          { nome: "Camiseta Setas Azuis Spray Preta", fotos: ["off white camiseta setas azuis spray preta.jpg"] },
+          { nome: "Camiseta Mona Lisa Branca", fotos: ["off white camiseta mona lisa branca.jpg"] },
+          { nome: "Camiseta Seta Rosa e Azul Branca", fotos: ["off white camiseta seta rosa e azul branca.jpg"] },
+          { nome: "Camiseta Seta Coral Preta", fotos: ["off white camiseta seta coral preta.jpg"] },
+          { nome: "Camiseta Seta Verde Branca", fotos: ["off white camiseta seta verde branca.jpg"] },
+          { nome: "Camiseta Seta Verde Água Preta", fotos: ["off white camiseta seta verde agua preta.jpg"] }
+        ]}
+      ]},
+      { marca: "Palm Angels", logo: "logo palm angels.png", tipos: [
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta Ursos Coração Preta", fotos: ["palm angels camiseta ursos coracao preta.jpg"] },
+          { nome: "Camiseta Urso Raio-X Preta", fotos: ["palm angels camiseta urso raio x preta.jpg"] },
+          { nome: "Camiseta Urso Bege Preta", fotos: ["palm angels camiseta urso bege preta.jpg"] },
+          { nome: "Camiseta Logo Los Angeles Preta", fotos: ["palm angels camiseta logo los angeles preta.jpg"] },
+          { nome: "Camiseta Spray Lilás Shanghai", fotos: ["palm angels camiseta spray lilas shanghai.jpg"] },
+          { nome: "Camiseta Spray Vermelho Tokyo", fotos: ["palm angels camiseta spray vermelho tokyo.jpg"] },
+          { nome: "Camiseta Coração Amarelo Dubai", fotos: ["palm angels camiseta coracao amarelo dubai.jpg"] },
+          { nome: "Camiseta Spray Roxo London", fotos: ["palm angels camiseta spray roxo london.jpg"] },
+          { nome: "Camiseta Spray Cinza Shanghai", fotos: ["palm angels camiseta spray cinza shanghai.jpg"] },
+          { nome: "Camiseta Menino com Bandeira", fotos: ["palm angels camiseta menino bandeira.jpg"] },
+          { nome: "Camiseta Ursos Dourados Branca", fotos: ["palm angels camiseta ursos dourados branca.jpg"] },
+          { nome: "Camiseta Ursos Coração Branca", fotos: ["palm angels camiseta ursos coracao branca.jpg"] },
+          { nome: "Camiseta Estrela Amarela Preta", fotos: ["palm angels camiseta estrela amarela preta.jpg"] },
+          { nome: "Camiseta Tubarão Bege", fotos: ["palm angels camiseta tubarao bege.jpg"] },
+          { nome: "Camiseta Spray Verde Milano", fotos: ["palm angels camiseta spray verde milano.jpg"] },
+          { nome: "Camiseta Logo Azul Preta", fotos: ["palm angels camiseta logo azul preta.jpg"] },
+          { nome: "Camiseta Coqueiro Branca", fotos: ["palm angels camiseta coqueiro branca.jpg"] },
+          { nome: "Camiseta Ursos Brancos Preta", fotos: ["palm angels camiseta ursos brancos preta.jpg"] },
+          { nome: "Camiseta Tubarão Branca", fotos: ["palm angels camiseta tubarao branca.jpg"] },
+          { nome: "Camiseta Logo Los Angeles Branca", fotos: ["palm angels camiseta logo los angeles branca.jpg"] },
+          { nome: "Camiseta Ursos Rosa Preta", fotos: ["palm angels camiseta ursos rosa preta.jpg"] },
+          { nome: "Camiseta Estrela Verde Preta", fotos: ["palm angels camiseta estrela verde preta.jpg"] },
+          { nome: "Camiseta Ursos Dourados Preta", fotos: ["palm angels camiseta ursos dourados preta.jpg"] },
+          { nome: "Camiseta Urso Raio-X Branca", fotos: ["palm angels camiseta urso raio x branca.jpg"] },
+          { nome: "Camiseta Ursos Brancos Branca", fotos: ["palm angels camiseta ursos brancos branca.jpg"] },
+          { nome: "Camiseta Tubarão Preta", fotos: ["palm angels camiseta tubarao preta.jpg"] },
+          { nome: "Camiseta Urso Bege Branca", fotos: ["palm angels camiseta urso bege branca.jpg"] },
+          { nome: "Camiseta Estrela Rosa Preta", fotos: ["palm angels camiseta estrela rosa preta.jpg"] },
+          { nome: "Camiseta Coração Rosa Palm Beach", fotos: ["palm angels camiseta coracao rosa palm beach.jpg"] },
+          { nome: "Camiseta Coração Azul St. Moritz", fotos: ["palm angels camiseta coracao azul st moritz.jpg"] },
+          { nome: "Camiseta Spray Azul Milano", fotos: ["palm angels camiseta spray azul milano.jpg"] },
+          { nome: "Camiseta Coração Roxo Aspen", fotos: ["palm angels camiseta coracao roxo aspen.jpg"] },
+          { nome: "Camiseta Logo Azul Branca", fotos: ["palm angels camiseta logo azul branca.jpg"] },
+          { nome: "Camiseta Tubarão Grande Preta", fotos: ["palm angels camiseta tubarao grande preta.jpg"] },
+          { nome: "Camiseta Coqueiro Preta", fotos: ["palm angels camiseta coqueiro preta.jpg"] }
+        ]},
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Capuz Spray Amarelo", fotos: ["palm angels moletom spray amarelo.jpg"] },
+          { nome: "Moletom Capuz Spray Branco", fotos: ["palm angels moletom spray branco.jpg"] },
+          { nome: "Moletom Capuz Spray Verde", fotos: ["palm angels moletom spray verde.jpg"] },
+          { nome: "Moletom Capuz Ursos", fotos: ["palm angels moletom ursos.jpg"] }
+        ]}
+      ]},
+      { marca: "Ralph Lauren", logo: "logo ralph lauren.png", tipos: [
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta Cinza Mescla", fotos: ["ralph lauren camiseta cinza mescla.jpg"] },
+          { nome: "Camiseta Branca", fotos: ["ralph lauren camiseta branca.jpg"] },
+          { nome: "Camiseta Preta", fotos: ["ralph lauren camiseta preta.jpg"] },
+          { nome: "Camiseta Azul Marinho", fotos: ["ralph lauren camiseta azul marinho.jpg"] },
+          { nome: "Polo Preta Cavalinho Vermelho", fotos: ["ralph lauren polo preta cavalinho vermelho.jpg"] },
+          { nome: "Polo Preta Cavalinho Branco", fotos: ["ralph lauren polo preta cavalinho branco.jpg"] },
+          { nome: "Polo Azul Marinho", fotos: ["ralph lauren polo azul marinho.jpg"] },
+          { nome: "Polo Verde Escuro", fotos: ["ralph lauren polo verde escuro.jpg"] },
+          { nome: "Polo Vinho", fotos: ["ralph lauren polo vinho.jpg"] },
+          { nome: "Polo Marrom", fotos: ["ralph lauren polo marrom.jpg"] },
+          { nome: "Camiseta Polo Bear Branca Urso Casaco Bege", fotos: ["ralph lauren camiseta polo bear branca urso casaco bege.jpg"] },
+          { nome: "Camiseta Polo Bear Branca Urso Bandeira", fotos: ["ralph lauren camiseta polo bear branca urso bandeira.jpg"] },
+          { nome: "Camiseta Polo Bear Branca Urso Camisa Jeans", fotos: ["ralph lauren camiseta polo bear branca urso camisa jeans.jpg"] },
+          { nome: "Camiseta Polo Bear Preta Urso Bordado", fotos: ["ralph lauren camiseta polo bear preta urso bordado.jpg"] },
+          { nome: "Camiseta Polo Bear Azul Marinho Urso de Óculos", fotos: ["ralph lauren camiseta polo bear azul marinho urso oculos.jpg"] },
+          { nome: "Camiseta Polo Bear Preta Urso Aviador", fotos: ["ralph lauren camiseta polo bear preta urso aviador.jpg"] }
+        ]},
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Zíper Capuz Cinza Mescla", fotos: ["ralph lauren moletom ziper cinza mescla.jpg"] },
+          { nome: "Moletom Zíper Capuz Preto Cavalinho Vermelho", fotos: ["ralph lauren moletom ziper preto cavalinho vermelho.jpg"] },
+          { nome: "Moletom Zíper Capuz Preto Cavalinho Branco", fotos: ["ralph lauren moletom ziper preto cavalinho branco.jpg"] },
+          { nome: "Moletom Zíper Capuz Verde Escuro", fotos: ["ralph lauren moletom ziper verde escuro.jpg"] },
+          { nome: "Moletom Zíper Capuz Rosa", fotos: ["ralph lauren moletom ziper rosa.jpg"] },
+          { nome: "Moletom Zíper Capuz Branco", fotos: ["ralph lauren moletom ziper branco.jpg"] },
+          { nome: "Moletom Zíper Capuz Azul Marinho Cavalinho Branco", fotos: ["ralph lauren moletom ziper azul marinho cavalinho branco.jpg"] },
+          { nome: "Moletom Zíper Capuz Azul Marinho Cavalinho Vermelho", fotos: ["ralph lauren moletom ziper azul marinho cavalinho vermelho.jpg"] },
+          { nome: "Moletom Gola Careca Bege", fotos: ["ralph lauren moletom gola careca bege.jpg"] },
+          { nome: "Moletom Zíper Azul Marinho Cordão Branco", fotos: ["ralph lauren moletom ziper azul marinho cordao branco.jpg"] },
+          { nome: "Moletom Zíper Preto", fotos: ["ralph lauren moletom ziper preto.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Marinheiro", fotos: ["ralph lauren moletom polo bear cinza urso marinheiro.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Moletom Vermelho", fotos: ["ralph lauren moletom polo bear marinho urso moletom vermelho.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Suéter de Tênis", fotos: ["ralph lauren moletom polo bear marinho urso sueter tenis.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Jardineiro", fotos: ["ralph lauren moletom polo bear cinza urso jardineiro.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Jaqueta Estampada", fotos: ["ralph lauren moletom polo bear cinza urso jaqueta estampada.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Jaqueta de Couro", fotos: ["ralph lauren moletom polo bear cinza urso jaqueta couro.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Listrado Náutico", fotos: ["ralph lauren moletom polo bear marinho urso listrado nautico.jpg"] },
+          { nome: "Moletom Polo Bear Preto — Urso Pescador Boné Vermelho", fotos: ["ralph lauren moletom polo bear preto urso pescador bone vermelho.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Suéter de Tênis", fotos: ["ralph lauren moletom polo bear cinza urso sueter tenis.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Blazer e Gravata", fotos: ["ralph lauren moletom polo bear marinho urso blazer gravata.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Lenço no Pescoço", fotos: ["ralph lauren moletom polo bear marinho urso lenco pescoco.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Pescador Chapéu Branco", fotos: ["ralph lauren moletom polo bear marinho urso pescador chapeu branco.jpg"] },
+          { nome: "Moletom Polo Bear Preto — Urso Suéter de Tênis", fotos: ["ralph lauren moletom polo bear preto urso sueter tenis.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Tenista", fotos: ["ralph lauren moletom polo bear marinho urso tenista.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Jaqueta Listrada", fotos: ["ralph lauren moletom polo bear marinho urso jaqueta listrada.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Jaqueta de Couro", fotos: ["ralph lauren moletom polo bear marinho urso jaqueta couro.jpg"] },
+          { nome: "Moletom Polo Bear Preto — Urso Camisa Azul", fotos: ["ralph lauren moletom polo bear preto urso camisa azul.jpg"] },
+          { nome: "Moletom Polo Bear Preto — Urso Moletom Vermelho", fotos: ["ralph lauren moletom polo bear preto urso moletom vermelho.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Rugby Listrado", fotos: ["ralph lauren moletom polo bear marinho urso rugby listrado.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Tenista", fotos: ["ralph lauren moletom polo bear cinza urso tenista.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Jaqueta Jeans Calça Branca", fotos: ["ralph lauren moletom polo bear cinza urso jaqueta jeans calca branca.jpg"] },
+          { nome: "Moletom Polo Bear Preto — Urso Jaqueta Jeans", fotos: ["ralph lauren moletom polo bear preto urso jaqueta jeans.jpg"] },
+          { nome: "Moletom Polo Bear Preto — Urso Pescador Capa Amarela", fotos: ["ralph lauren moletom polo bear preto urso pescador capa amarela.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Jaqueta Jeans Tênis Verde", fotos: ["ralph lauren moletom polo bear marinho urso jaqueta jeans tenis verde.jpg"] },
+          { nome: "Moletom Polo Bear Preto — Urso Tenista", fotos: ["ralph lauren moletom polo bear preto urso tenista.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Pescador Boné Vermelho", fotos: ["ralph lauren moletom polo bear marinho urso pescador bone vermelho.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Jaqueta Jeans Tênis Verde", fotos: ["ralph lauren moletom polo bear cinza urso jaqueta jeans tenis verde.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Blazer e Gravata", fotos: ["ralph lauren moletom polo bear cinza urso blazer gravata.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Jaqueta Azul Estampada", fotos: ["ralph lauren moletom polo bear marinho urso jaqueta azul estampada.jpg"] },
+          { nome: "Moletom Polo Bear Preto — Urso Polo Bola de Praia", fotos: ["ralph lauren moletom polo bear preto urso polo bola de praia.jpg"] },
+          { nome: "Moletom Polo Bear Cinza — Urso Jaqueta Jeans Azul", fotos: ["ralph lauren moletom polo bear cinza urso jaqueta jeans azul.jpg"] },
+          { nome: "Moletom Polo Bear Marinho — Urso Rugby Colorido", fotos: ["ralph lauren moletom polo bear marinho urso rugby colorido.jpg"] }
+        ]},
+        { tipo: "Suéteres", pecas: [
+          { nome: "Suéter Tricô Trançado Cinza Claro", fotos: ["ralph lauren sueter trico cinza claro.jpg"] },
+          { nome: "Suéter Tricô Trançado Preto", fotos: ["ralph lauren sueter trico preto.jpg"] },
+          { nome: "Suéter Tricô Trançado Rosa", fotos: ["ralph lauren sueter trico rosa.jpg"] },
+          { nome: "Suéter Tricô Trançado Bege", fotos: ["ralph lauren sueter trico bege.jpg"] },
+          { nome: "Suéter Tricô Trançado Vinho", fotos: ["ralph lauren sueter trico vinho.jpg"] },
+          { nome: "Suéter Tricô Trançado Azul Marinho", fotos: ["ralph lauren sueter trico azul marinho.jpg"] },
+          { nome: "Suéter Tricô Trançado Branco", fotos: ["ralph lauren sueter trico branco.jpg"] },
+          { nome: "Suéter Tricô Trançado Azul Claro", fotos: ["ralph lauren sueter trico azul claro.jpg"] }
+        ]},
+        { tipo: "Quarter Zip", pecas: [
+          { nome: "Moletom Meio Zíper Cinza Mescla", fotos: ["ralph lauren quarter zip moletom cinza mescla.jpg"] },
+          { nome: "Moletom Meio Zíper Azul Marinho", fotos: ["ralph lauren quarter zip moletom azul marinho.jpg"] },
+          { nome: "Moletom Meio Zíper Creme", fotos: ["ralph lauren quarter zip moletom creme.jpg"] },
+          { nome: "Moletom Meio Zíper Branco", fotos: ["ralph lauren quarter zip moletom branco.jpg"] },
+          { nome: "Moletom Meio Zíper Rosa", fotos: ["ralph lauren quarter zip moletom rosa.jpg"] },
+          { nome: "Moletom Meio Zíper Preto", fotos: ["ralph lauren quarter zip moletom preto.jpg"] },
+          { nome: "Tricô Meio Zíper Azul Marinho", fotos: ["ralph lauren quarter zip trico azul marinho.jpg"] },
+          { nome: "Tricô Meio Zíper Cinza Claro", fotos: ["ralph lauren quarter zip trico cinza claro.jpg"] },
+          { nome: "Tricô Meio Zíper Bege", fotos: ["ralph lauren quarter zip trico bege.jpg"] },
+          { nome: "Tricô Meio Zíper Branco", fotos: ["ralph lauren quarter zip trico branco.jpg"] },
+          { nome: "Tricô Meio Zíper Cinza Escuro", fotos: ["ralph lauren quarter zip trico cinza escuro.jpg"] }
+        ]}
+      ]},
+      { marca: "Sundek", logo: "logo sundek.png", tipos: [
+        { tipo: "Shorts", pecas: [
+          { nome: "Short Branco", fotos: ["sundek short branco.jpg"] },
+          { nome: "Short Vermelho Listra Azul", fotos: ["sundek short vermelho listra azul.jpg"] },
+          { nome: "Short Vinho", fotos: ["sundek short vinho.jpg"] },
+          { nome: "Short Laranja", fotos: ["sundek short laranja.jpg"] },
+          { nome: "Short Cinza Escuro", fotos: ["sundek short cinza escuro.jpg"] },
+          { nome: "Short Azul Royal", fotos: ["sundek short azul royal.jpg"] },
+          { nome: "Short Vermelho Listra Amarela", fotos: ["sundek short vermelho listra amarela.jpg"] },
+          { nome: "Short Azul Marinho", fotos: ["sundek short azul marinho.jpg"] },
+          { nome: "Short Preto", fotos: ["sundek short preto.jpg"] },
+          { nome: "Short Verde", fotos: ["sundek short verde.jpg"] },
+          { nome: "Short Verde Militar", fotos: ["sundek short verde militar.jpg"] },
+          { nome: "Short Azul Claro", fotos: ["sundek short azul claro.jpg"] }
+        ]}
+      ]},
+      { marca: "Vilebrequin", logo: "logo vilebrequin.png", tipos: [
+        { tipo: "Shorts", pecas: [
+          { nome: "Short Tartarugas Branco", fotos: ["vilebrequin short tartarugas branco.jpg"] },
+          { nome: "Short Tartarugas Azul", fotos: ["vilebrequin short tartarugas azul.jpg"] },
+          { nome: "Short Tartarugas Verde", fotos: ["vilebrequin short tartarugas verde.jpg"] },
+          { nome: "Short Tartarugas Vermelho", fotos: ["vilebrequin short tartarugas vermelho.jpg"] },
+          { nome: "Short Tartarugas Azul Marinho", fotos: ["vilebrequin short tartarugas azul marinho.jpg"] },
+          { nome: "Short Tartarugas Azul Claro", fotos: ["vilebrequin short tartarugas azul claro.jpg"] },
+          { nome: "Short Azul Claro", fotos: ["vilebrequin short azul claro.jpg"] },
+          { nome: "Short Laranja", fotos: ["vilebrequin short laranja.jpg"] },
+          { nome: "Short Lilás", fotos: ["vilebrequin short lilas.jpg"] },
+          { nome: "Short Vermelho", fotos: ["vilebrequin short vermelho.jpg"] },
+          { nome: "Short Verde Água", fotos: ["vilebrequin short verde agua.jpg"] },
+          { nome: "Short Azul Marinho", fotos: ["vilebrequin short azul marinho.jpg"] },
+          { nome: "Short Verde Limão", fotos: ["vilebrequin short verde limao.jpg"] },
+          { nome: "Short Cinza Chumbo", fotos: ["vilebrequin short cinza chumbo.jpg"] },
+          { nome: "Short Azul Turquesa", fotos: ["vilebrequin short azul turquesa.jpg"] },
+          { nome: "Short Azul Royal", fotos: ["vilebrequin short azul royal.jpg"] },
+          { nome: "Short Verde Militar", fotos: ["vilebrequin short verde militar.jpg"] },
+          { nome: "Short Cinza Claro", fotos: ["vilebrequin short cinza claro.jpg"] }
+        ]}
+      ]},
+      { marca: "Zegna", logo: "logo zegna.png", tipos: [
+        { tipo: "Tênis", pecas: [
+          { nome: "Triple Stitch Azul Acinzentado", fotos: ["zegna triple stitch azul acinzentado.jpg"] },
+          { nome: "Triple Stitch Branco", fotos: ["zegna triple stitch branco.jpg"] },
+          { nome: "Triple Stitch Azul Marinho Couro", fotos: ["zegna triple stitch azul marinho couro.jpg"] },
+          { nome: "Triple Stitch Preto", fotos: ["zegna triple stitch preto.jpg"] },
+          { nome: "Triple Stitch Branco Detalhe Caramelo", fotos: ["zegna triple stitch branco detalhe caramelo.jpg"] },
+          { nome: "Triple Stitch Marrom Sola Branca", fotos: ["zegna triple stitch marrom sola branca.jpg"] },
+          { nome: "Triple Stitch Marrom Escuro", fotos: ["zegna triple stitch marrom escuro.jpg"] },
+          { nome: "Triple Stitch Azul Marinho Camurça", fotos: ["zegna triple stitch azul marinho camurca.jpg"] },
+          { nome: "Triple Stitch Azul Royal", fotos: ["zegna triple stitch azul royal.jpg"] },
+          { nome: "Triple Stitch Cinza Claro", fotos: ["zegna triple stitch cinza claro.jpg"] },
+          { nome: "Triple Stitch Caramelo", fotos: ["zegna triple stitch caramelo.jpg"] }
+        ]}
+      ]}
+    ];
+
+    /* desenho que aparece em cada tipo de peça */
+    (function iniciarEncomendas() {
+      var grid = document.getElementById("enc-grid");
+      var crumb = document.getElementById("enc-crumb");
+      var voltar = document.getElementById("enc-back");
+      var secao = document.getElementById("encomendas");
+      if (!grid) return;
+
+      var marcaAtual = null;
+      var tipoAtual = null;
+      var relogios = [];
+
+      function monograma(nome) {
+        var partes = nome.split(/[\s-]+/);
+        if (partes.length === 1) return nome.slice(0, 2).toUpperCase();
+        return partes.map(function(p) { return p.charAt(0); }).join("").slice(0, 3).toUpperCase();
+      }
+      function plural(n, um, muitos) { return n + " " + (n === 1 ? um : muitos); }
+
+      function soEncomenda(ligado) {
+        document.body.classList.toggle("so-encomenda", ligado);
+      }
+
+      /* leva a pagina para o topo da encomenda */
+      function subirAteSecao() {
+        if (document.body.classList.contains("so-encomenda")) {
+          window.scrollTo(0, 0);
+          return;
+        }
+        if (secao.getBoundingClientRect().top >= 0) return;
+        smoothScrollTo(secao.getBoundingClientRect().top + window.scrollY - 72, 500);
+      }
+
+      function trocar(desenhar) {
+        relogios.forEach(function(r) { clearInterval(r); });
+        relogios = [];
+        grid.style.opacity = "0";
+        setTimeout(function() {
+          grid.innerHTML = "";
+          desenhar();
+          grid.style.opacity = "1";
+        }, 200);
+      }
+
+      function mostrarMarcas() {
+        marcaAtual = null;
+        tipoAtual = null;
+        voltar.hidden = true;
+        crumb.textContent = "Escolha uma marca";
+        grid.classList.add("enc-grid-marcas");
+        if (document.body.classList.contains("so-encomenda")) {
+          soEncomenda(false);
+          window.scrollTo(0, Math.max(0, secao.getBoundingClientRect().top + window.scrollY - 72));
+        }
+        trocar(function() {
+          encomendas.forEach(function(marca) {
+            var pecas = marca.tipos.reduce(function(t, g) { return t + g.pecas.length; }, 0);
+            var tile = document.createElement("div");
+            tile.className = "enc-tile enc-brand";
+            tile.title = marca.marca + " — " + plural(pecas, "peça", "peças");
+            tile.innerHTML = marca.logo
+              ? '<img class="enc-logo" src="' + encodeURI(marca.logo) + '" alt="' + marca.marca + '" />'
+              : '<div class="enc-mono">' + monograma(marca.marca) + '</div>';
+            tile.addEventListener("click", function() { mostrarTipos(marca); });
+            grid.appendChild(tile);
+          });
+        });
+      }
+
+      function mostrarTipos(marca) {
+        marcaAtual = marca;
+        tipoAtual = null;
+        voltar.hidden = false;
+        crumb.innerHTML = '<b>' + marca.marca + '</b> — escolha o tipo de peça';
+        grid.classList.remove("enc-grid-marcas");
+        soEncomenda(true);
+        subirAteSecao();
+        trocar(function() {
+          marca.tipos.forEach(function(grupo) {
+            var tile = document.createElement("div");
+            tile.className = "enc-tile enc-tipo";
+            tile.innerHTML =
+              '<div class="enc-tile-name">' + grupo.tipo + '</div>' +
+              '<div class="enc-tile-sub">' + plural(grupo.pecas.length, "peça", "peças") + '</div>';
+            tile.addEventListener("click", function() { mostrarPecas(marca, grupo); });
+            grid.appendChild(tile);
+          });
+        });
+      }
+
+      function mostrarPecas(marca, grupo) {
+        tipoAtual = grupo;
+        voltar.hidden = false;
+        crumb.innerHTML = '<b>' + marca.marca + '</b> — ' + grupo.tipo;
+        grid.classList.remove("enc-grid-marcas");
+        soEncomenda(true);
+        subirAteSecao();
+        trocar(function() {
+          if (!grupo.pecas.length) {
+            grid.innerHTML = '<div class="enc-empty">Em breve novas peças desta marca.</div>';
+            return;
+          }
+          grupo.pecas.forEach(function(peca) {
+            var temFoto = peca.fotos && peca.fotos.length;
+            var media = temFoto
+              ? peca.fotos.map(function(foto, i) {
+                  return '<img class="slide' + (i === 0 ? ' active' : '') + '" src="' +
+                         encodeURI(foto) + "?v=" + VERSAO_FOTOS + '" alt="' + peca.nome + '" />';
+                }).join("")
+              : '<i class="ti ti-hanger"></i>';
+            var item = document.createElement("div");
+            item.className = "enc-item";
+            item.title = peca.nome + " — " + marca.marca;
+            item.innerHTML =
+              '<div class="enc-photo">' +
+                (temFoto ? '' : '<span class="enc-badge">Foto em breve</span>') +
+                media +
+              '</div>' +
+              '<div class="enc-item-info">' +
+                '<button class="product-btn">Encomendar</button>' +
+              '</div>';
+            item.querySelector(".product-btn").addEventListener("click", function() {
+              encomendarPeca(marca.marca, grupo.tipo, peca.nome);
+            });
+            if (temFoto && peca.fotos.length > 1) {
+              (function(slides) {
+                var i = 0;
+                relogios.push(setInterval(function() {
+                  slides[i].classList.remove("active");
+                  i = (i + 1) % slides.length;
+                  slides[i].classList.add("active");
+                }, 3000));
+              })(item.querySelectorAll(".slide"));
+            }
+            grid.appendChild(item);
+          });
+        });
+      }
+
+      function encomendarPeca(marca, tipo, peca) {
+        var msg = "Olá, tudo bem? Vim pelo site do PB Club e gostaria de encomendar: " +
+                  peca + " — " + marca + " (" + tipo + ").";
+        window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg), "_blank");
+      }
+
+      voltar.addEventListener("click", function() {
+        subirAteSecao();
+        if (tipoAtual) { mostrarTipos(marcaAtual); }
+        else { mostrarMarcas(); }
+      });
+
+      /* o menu de categorias e a busca precisam disso para sair da marca */
+      window.voltarParaAsMarcas = mostrarMarcas;
+
+      mostrarMarcas();
+    })();
+
   </script>
 
 </body>
