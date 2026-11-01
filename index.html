@@ -46,6 +46,19 @@
     }
     .hero-video.loaded { opacity: 1; }
 
+    /* O video de abertura e so enfeite. Sem isto, um toque nele pausa o video
+       e o navegador desenha o simbolo de play/pause por cima. Ignorando o
+       toque, o dedo passa direto para a pagina e nada aparece. */
+    .hero-video { pointer-events: none; }
+    .hero-video::-webkit-media-controls,
+    .hero-video::-webkit-media-controls-panel,
+    .hero-video::-webkit-media-controls-play-button,
+    .hero-video::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none;
+      opacity: 0;
+    }
+
     .hero-overlay {
       position: absolute;
       inset: 0;
@@ -1031,7 +1044,10 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" onloadeddata="this.classList.add('loaded')">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto"
+           disablepictureinpicture disableremoteplayback
+           controlslist="nodownload noplaybackrate noremoteplayback"
+           onloadeddata="this.classList.add('loaded')">
       <source src="intro.mp4" type="video/mp4" />
     </video>
     <div class="hero-overlay"></div>
@@ -2489,6 +2505,29 @@
       window.voltarParaAsMarcas = mostrarMarcas;
 
       mostrarMarcas();
+    })();
+
+    /* Se o aparelho bloquear a reproducao automatica — o modo de pouca bateria
+       do iPhone faz isso — o video fica parado e o navegador desenha o botao
+       de play por cima. Aqui tentamos tocar de novo no primeiro toque da
+       pessoa e sempre que ela volta para a aba. */
+    (function cuidarDoVideo() {
+      var video = document.querySelector(".hero-video");
+      if (!video) return;
+
+      function tocar() {
+        if (!video.paused) return;
+        var p = video.play();
+        if (p && p.catch) p.catch(function() {});
+      }
+
+      ["pointerdown", "touchstart", "keydown", "scroll"].forEach(function(evento) {
+        window.addEventListener(evento, tocar, { once: true, passive: true });
+      });
+      document.addEventListener("visibilitychange", function() {
+        if (!document.hidden) tocar();
+      });
+      video.addEventListener("pause", function() { setTimeout(tocar, 60); });
     })();
 
   </script>
