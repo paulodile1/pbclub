@@ -1695,9 +1695,41 @@
        suba este número em 1. Ele vai junto no endereço da imagem e obriga
        o navegador a baixar a versão nova em vez de mostrar a antiga que
        ficou guardada no cache. */
-    var VERSAO_FOTOS = 21;
+    var VERSAO_FOTOS = 23;
 
     var encomendas = [
+      { marca: "AMI", logo: "logo ami.png", tipos: [
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta Coração Preta", fotos: ["ami camiseta coracao preta.jpg"] },
+          { nome: "Camiseta Coração Branca", fotos: ["ami camiseta coracao branca.jpg"] },
+          { nome: "Camiseta Coração Cinza Mescla", fotos: ["ami camiseta coracao cinza mescla.jpg"] },
+          { nome: "Camiseta Coração Bege", fotos: ["ami camiseta coracao bege.jpg"] },
+          { nome: "Camiseta Coração Creme", fotos: ["ami camiseta coracao creme.jpg"] },
+          { nome: "Camiseta Coração Marrom", fotos: ["ami camiseta coracao marrom.jpg"] }
+        ]},
+        { tipo: "Casacos", pecas: [
+          { nome: "Moletom Capuz Azul Marinho", fotos: ["ami moletom capuz azul marinho.jpg"] },
+          { nome: "Moletom Zíper Azul Marinho", fotos: ["ami moletom ziper azul marinho.jpg"] },
+          { nome: "Moletom Zíper Bege", fotos: ["ami moletom ziper bege.jpg"] },
+          { nome: "Moletom Capuz Preto", fotos: ["ami moletom capuz preto.jpg"] },
+          { nome: "Suéter Coração Grande Preto", fotos: ["ami sueter coracao grande preto.jpg"] },
+          { nome: "Suéter Coração Branco Azul Marinho", fotos: ["ami sueter coracao branco azul marinho.jpg"] },
+          { nome: "Suéter Coração Grande Creme", fotos: ["ami sueter coracao grande creme.jpg"] },
+          { nome: "Moletom Capuz Cinza", fotos: ["ami moletom capuz cinza.jpg"] },
+          { nome: "Suéter Coração Preto Cinza", fotos: ["ami sueter coracao preto cinza.jpg"] }
+        ]}
+      ]},
+      { marca: "AMIRI", logo: "logo amiri.png", tipos: [
+        { tipo: "Camisas", pecas: [
+          { nome: "Camiseta Assinatura Preta", fotos: ["amiri camiseta assinatura preta.jpg"] },
+          { nome: "Camiseta Logo Colorido Preta", fotos: ["amiri camiseta logo colorido preta.jpg"] },
+          { nome: "Camiseta Monograma Desbotado Preta", fotos: ["amiri camiseta monograma desbotado preta.jpg"] },
+          { nome: "Camiseta Monograma MA Preta", fotos: ["amiri camiseta monograma ma preta.jpg"] },
+          { nome: "Camiseta AMIRI Grande Preta", fotos: ["amiri camiseta amiri grande preta.jpg"] },
+          { nome: "Camiseta AMIRI Pequeno Preta", fotos: ["amiri camiseta amiri pequeno preta.jpg"] },
+          { nome: "Camiseta AMIRI Arts District Preta", fotos: ["amiri camiseta arts district preta.jpg"] }
+        ]}
+      ]},
       { marca: "Birkenstock", logo: "logo birkenstock.png", tipos: [
         { tipo: "Calçados", pecas: [
           { nome: "Boston Preto", fotos: ["birkenstock boston preto.jpg"] },
@@ -1973,7 +2005,10 @@
           { nome: "Moletom Gola Careca Preto", fotos: ["moncler moletom gola careca preto.jpg"] },
           { nome: "Jaqueta Acolchoada Preta", fotos: ["moncler jaqueta acolchoada preta.jpg"] },
           { nome: "Jaqueta Puffer Preta Brilhante", fotos: ["moncler jaqueta puffer brilhante.jpg"] },
-          { nome: "Jaqueta Puffer Capuz Preta", fotos: ["moncler jaqueta puffer capuz.jpg"] }
+          { nome: "Jaqueta Puffer Capuz Preta", fotos: ["moncler jaqueta puffer capuz.jpg"] },
+          { nome: "Moletom Capuz MONCLER Preto", fotos: ["moncler moletom capuz logo preto.jpg"] },
+          { nome: "Suéter Logo Moncler Azul Marinho", fotos: ["moncler sueter logo azul marinho.jpg"] },
+          { nome: "Moletom Logo Desbotado Preto", fotos: ["moncler moletom logo desbotado preto.jpg"] }
         ]},
         { tipo: "Camisas", pecas: [
           { nome: "Polo Azul Marinho", fotos: ["moncler polo azul marinho.jpg"] },
@@ -2331,6 +2366,7 @@
       }
 
       function monograma(nome) {
+        if (nome.replace(/[^A-Za-zÀ-ÿ]/g, "").length <= 5) return nome.toUpperCase();
         var partes = nome.split(/[\s-]+/);
         if (partes.length === 1) return nome.slice(0, 2).toUpperCase();
         return partes.map(function(p) { return p.charAt(0); }).join("").slice(0, 3).toUpperCase();
